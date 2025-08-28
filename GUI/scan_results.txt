@@ -1,0 +1,114 @@
+============================================================
+        🌐 FULL SITE SCAN RESULTS 🌐
+============================================================
+
+--- PLATFORM ---
+- Django
+
+--- WORDPRESS ---
+version:
+    Unknown
+theme:
+    Unknown
+plugins:
+
+--- ADMIN_PANEL ---
+login_pages:
+    - admin/
+forms:
+    admin/:
+            action:
+                /admin/login/?next=/admin/
+            method:
+                post
+            inputs:
+                    name:
+                        csrfmiddlewaretoken
+                    type:
+                        hidden
+                    name:
+                        username
+                    type:
+                        text
+                    name:
+                        password
+                    type:
+                        password
+                    name:
+                        next
+                    type:
+                        hidden
+
+--- DEEP_SCAN ---
+emails:
+    - sepadra1@gmail.com
+usernames:
+    - search
+    - nameandlastname
+    - phone
+    - csrfmiddlewaretoken
+    - email
+    - type
+    - posttype
+html_elements:
+    - option
+    - textarea
+    - title
+    - label
+    - img
+    - h6
+    - nav
+    - input
+    - h3
+    - script
+    - h4
+    - a
+    - h2
+    - h7
+    - head
+    - form
+    - i
+    - p
+    - select
+    - small
+    - ul
+    - link
+    - h5
+    - li
+    - iframe
+    - h1
+    - div
+    - html
+    - body
+    - br
+    - button
+    - span
+    - meta
+
+--- WHOIS ---
+basic_whois:
+    domain_name:
+        SEPADRA.COM
+    registrar:
+        CSL Computer Service Langenbach GmbH d/b/a joker.com
+    creation_date:
+        2024-06-03 11:25:17
+    expiration_date:
+        2026-06-03 11:25:17
+    updated_date:
+        2025-06-10 16:03:11
+    name_servers:
+        - NS139.PWS-DNS.NET
+        - NS140.PWS-DNS.NET
+    emails:
+        abuse@joker.com
+dns_info:
+    A_records:
+        - 195.214.235.148
+    MX_records:
+        - sepadra.com.
+    TXT_records:
+        - "v=spf1 ip4:195.214.235.147 ip4:195.214.235.148 ip4:31.214.174.196 ip4:136.243.36.95 +a +mx ~all"
+emails:
+
+============================================================

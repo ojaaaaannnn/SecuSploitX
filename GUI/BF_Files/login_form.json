@@ -1,0 +1,11 @@
+{
+    "url": "https://sepadra.com/",
+    "action": "/#booking",
+    "method": "post",
+    "username_field": "email",
+    "password_field": null,
+    "hidden_fields": {
+        "csrfmiddlewaretoken": "V7iEc7Mwu9EJTZKC8cb1Du9XCjqFYvR3Pm1jOC0OP2Em2bm0gbzHREh3pUhs6lRa",
+        "posttype": "1"
+    }
+}

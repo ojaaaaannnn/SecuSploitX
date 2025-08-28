@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sploit | Advanced Penetration Testing Framework</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #00ff8c;
+      --primary-dark: #00cc6f;
+      --primary-darker: #009953;
+      --dark-bg: #0a0a0a;
+      --darker-bg: #050505;
+      --card-bg: #111111;
+      --terminal-bg: #0d0d0d;
+      --terminal-border: #00ff8c;
+      --text-light: #f0f0f0;
+      --text-muted: #888;
+      --accent-red: #ff4655;
+      --accent-blue: #3498db;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-light);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    #matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--darker-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+
+    header {
+      background: linear-gradient(to bottom, var(--darker-bg) 80%, transparent);
+      border-bottom: 2px solid var(--primary);
+      padding: 20px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: relative;
+      z-index: 10;
+      flex-wrap: wrap;
+      backdrop-filter: blur(5px);
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      flex-shrink: 0;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      text-shadow: 0 0 15px rgba(0, 255, 140, 0.7);
+    }
+
+    .logo i {
+      font-size: 2.8rem;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+      max-width: 600px;
+    }
+
+    .tagline {
+      font-size: 1.5rem;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .cta-btn, .github-btn {
+      padding: 14px 32px;
+      background: var(--primary);
+      color: #000;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 10px rgba(0, 255, 140, 0.3);
+    }
+
+    .github-btn {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .cta-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 255, 140, 0.4);
+    }
+
+    .github-btn:hover {
+      background: rgba(0, 255, 140, 0.1);
+      transform: translateY(-3px);
+    }
+
+    nav {
+      background: rgba(16, 16, 16, 0.95);
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      padding: 1.2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      user-select: none;
+      overflow-x: auto;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 255, 140, 0.2);
+    }
+
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 3rem;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 1s ease;
+      position: relative;
+      z-index: 10;
+      border: 1px solid rgba(0, 255, 140, 0.1);
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, transparent, transparent, var(--primary), transparent, transparent);
+      border-radius: 8px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    section:hover::before {
+      opacity: 0.1;
+    }
+
+    section h2 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      user-select: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    section h2::after {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 3px;
+      background: var(--primary);
+      margin: 15px auto 0;
+      border-radius: 3px;
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      color: var(--text-light);
+    }
+
+    .team-image {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      position: relative;
+      border: 1px solid rgba(0, 255, 140, 0.2);
+    }
+
+    .team-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 255, 140, 0.1), transparent);
+      z-index: 1;
+    }
+
+    .team-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .team-image:hover img {
+      transform: scale(1.03);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: linear-gradient(to bottom, #151515, #0c0c0c);
+      border-radius: 8px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 255, 140, 0.1);
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 0;
+      background: var(--primary);
+      transition: height 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .feature-card:hover::before {
+      height: 100%;
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-light);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .feature-content {
+      color: #00ffa3;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .contact-card {
+      background: linear-gradient(to bottom, #151515, #0c0c0c);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 255, 140, 0.1);
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .member-name {
+      color: var(--primary);
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 12px;
+      border-radius: 5px;
+      background: rgba(0, 255, 140, 0.05);
+      font-size: 1.1rem;
+    }
+
+    .contact-link:hover {
+      background: rgba(0, 255, 140, 0.1);
+      color: var(--primary);
+      transform: translateX(5px);
+    }
+
+    .contact-icon {
+      font-size: 1.3rem;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+      margin-top: 5rem;
+      user-select: none;
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid rgba(0, 255, 140, 0.1);
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-text {
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--primary);
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 992px) {
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+
+      .team-image {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .logo {
+        font-size: 2.8rem;
+        justify-content: center;
+      }
+
+      .hero-content {
+        align-items: center;
+        text-align: center;
+      }
+
+      .cta-buttons {
+        justify-content: center;
+      }
+
+      section {
+        margin: 2rem 1rem;
+        padding: 2rem;
+      }
+
+      nav {
+        gap: 1.5rem;
+        padding: 1rem;
+      }
+
+      nav a {
+        font-size: 1rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 2.2rem;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+      }
+
+      .cta-btn, .github-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+
+      section h2 {
+        font-size: 2rem;
+      }
+
+      .feature-card {
+        padding: 1.5rem;
+      }
+
+      .contact-card {
+        padding: 1.5rem;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Matrix Code Rain Canvas -->
+  <canvas id="matrix"></canvas>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <i class="fas fa-shield-alt"></i>
+      Sploit
+    </div>
+    <div class="hero-content">
+      <p class="tagline">Advanced Ethical Hacking Toolkit for Security Professionals</p>
+      <div class="cta-buttons">
+        <button class="cta-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+          <i class="fas fa-arrow-down"></i>Explore Features
+        </button>
+        <button class="github-btn" onclick="window.open('https://github.com/AUX-441','_blank')">
+          <i class="fab fa-github"></i>View on GitHub
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+    <a href="#features"><i class="fas fa-star"></i> Features</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+  </nav>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2>About Sploit</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>We are a dedicated team of cybersecurity experts passionate about ethical hacking and penetration testing. Our mission is to provide security professionals with powerful yet accessible tools to strengthen digital defenses.</p>
+        <p>Sploit is a comprehensive Windows-based toolkit designed to streamline security testing processes. With an emphasis on automation and user experience, our solution enables both beginners and experts to conduct thorough security assessments efficiently.</p>
+        <p>Our philosophy centers on responsible disclosure and ethical practices. We believe that by making advanced security tools more accessible, we contribute to a safer digital ecosystem for everyone.</p>
+      </div>
+      <div class="team-image">
+        <img src="assets/images/image.png" alt="Sploit Cybersecurity Interface" style="width: 100%; height: 100%;" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <h2>Powerful Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-desktop"></i>
+        </div>
+        <h3 class="feature-title">Windows-Based Toolkit</h3>
+        <p class="feature-content">A lightweight desktop application designed specifically for Windows environments. Sploit provides an intuitive interface for conducting comprehensive penetration tests without requiring complex setup or configuration.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-sign-in-alt"></i>
+        </div>
+        <h3 class="feature-title">Automated Login Analysis</h3>
+        <p class="feature-content">Intelligently detect and analyze login forms with advanced automation. Test credential strength, session management, and authentication mechanisms with just a few clicks.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-virus"></i>
+        </div>
+        <h3 class="feature-title">Vulnerability Assessment</h3>
+        <p class="feature-content">Identify security weaknesses in controlled test environments. Our sophisticated scanning engine detects potential vulnerabilities while maintaining operational safety.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <h3 class="feature-title">Detailed Reporting</h3>
+        <p class="feature-content">Generate comprehensive, encrypted security reports in multiple formats. Share findings with stakeholders through professionally designed templates that highlight critical issues.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-user-friends"></i>
+        </div>
+        <h3 class="feature-title">User-Friendly Interface</h3>
+        <p class="feature-content">Experience a streamlined dashboard designed for efficiency. Whether you're a seasoned professional or new to security testing, Sploit's intuitive design ensures rapid mastery.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h3 class="feature-title">Rapid Deployment</h3>
+        <p class="feature-content">Get started in minutes with our pre-configured environment. Sploit comes equipped with essential modules and requires minimal setup, allowing immediate focus on security testing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact Our Team</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3 class="member-name">Aux</h3>
+        <div class="contact-links">
+          <a href="https://t.me/submindF" target="_blank" class="contact-link">
+            <i class="fab fa-telegram contact-icon"></i>
+            <span>@submindF</span>
+          </a>
+          <a href="mailto:submindf@gmail.com" class="contact-link">
+            <i class="fas fa-envelope contact-icon"></i>
+            <span>submindf@gmail.com</span>
+          </a>
+          <a href="https://instagram.com/ehsas6ha" target="_blank" class="contact-link">
+            <i class="fab fa-instagram contact-icon"></i>
+            <span>@ehsas6ha</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h3 class="member-name">Joel</h3>
+        <div class="contact-links">
+          <a href="https://t.me/JCyberProtect" target="_blank" class="contact-link">
+            <i class="fab fa-telegram contact-icon"></i>
+            <span>@JCyberProtect</span>
+          </a>
+          <a href="mailto:joel.ibazebo@outlook.com" class="contact-link">
+            <i class="fas fa-envelope contact-icon"></i>
+            <span>joel.ibazebo@outlook.com</span>
+          </a>
+          <a href="http://linkedin.com/in/joel-ibazebo-567752371" target="_blank" class="contact-link">
+            <i class="fab fa-linkedin contact-icon"></i>
+            <span>Joel Ibazebo</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h3 class="member-name">Tara</h3>
+        <div class="contact-links">
+          <a href="https://t.me/Hashemitara" target="_blank" class="contact-link">
+            <i class="fab fa-telegram contact-icon"></i>
+            <span>@Hashemitara</span>
+          </a>
+          <a href="mailto:tarahshemi@gmail.com" class="contact-link">
+            <i class="fas fa-envelope contact-icon"></i>
+            <span>tarahshemi@gmail.com</span>
+          </a>
+          <a href="https://instagram.com/tara4" target="_blank" class="contact-link">
+            <i class="fab fa-instagram contact-icon"></i>
+            <span>@tara4</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h3 class="member-name">Fatheme</h3>
+        <div class="contact-links">
+          <a href="#" class="contact-link">
+            <i class="fab fa-telegram contact-icon"></i>
+            <span>Telegram</span>
+          </a>
+          <a href="#" class="contact-link">
+            <i class="fas fa-envelope contact-icon"></i>
+            <span>Email</span>
+          </a>
+          <a href="#" class="contact-link">
+            <i class="fab fa-instagram contact-icon"></i>
+            <span>Instagram</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-shield-alt"></i> Sploit
+      </div>
+      <p class="footer-text">Advanced cybersecurity tools for ethical hacking and penetration testing professionals.</p>
+      <div class="footer-links">
+        <a href="#about" class="footer-link">About</a>
+        <a href="#features" class="footer-link">Features</a>
+        <a href="#contact" class="footer-link">Contact</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+      </div>
+      <p class="copyright">&copy; 2025 Sploit Security Toolkit. All rights reserved. Built for Ethical Security Professionals.</p>
+    </div>
+  </footer>
+
+  <!-- Matrix Code Rain JS -->
+  <script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth, height = window.innerHeight;
+    canvas.width = width; canvas.height = height;
+
+    const letters = "01010101SPLOITabcdefghijklmnopqrstuvwxyz$%#@!*&?";
+    const lettersArray = letters.split("");
+    const fontSize = 16, columns = Math.floor(width / fontSize);
+    const drops = []; for(let x = 0; x < columns; x++) drops[x] = Math.random() * height;
+
+    function draw() {
+      ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = '#00ff8c';
+      ctx.font = `${fontSize}px 'Orbitron', monospace`;
+
+      for(let i = 0; i < drops.length; i++) {
+        const text = lettersArray[Math.floor(Math.random() * lettersArray.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+
+        // Add gradient for text
+        const gradient = ctx.createLinearGradient(x, y, x, y + fontSize);
+        gradient.addColorStop(0, '#00ff8c');
+        gradient.addColorStop(1, '#00cc6f');
+        ctx.fillStyle = gradient;
+
+        ctx.fillText(text, x, y);
+
+        if(y > height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 33);
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth; height = window.innerHeight;
+      canvas.width = width; canvas.height = height;
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        document.querySelector(targetId).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+Scan started at 2025-08-28 00:37:37.268040
+Target: https://sepadra.com/
+
+https://sepadra.com/admin.php -> 404
+https://sepadra.com/admin.html -> 404
+https://sepadra.com/index.php -> 404
+https://sepadra.com/login.php -> 404
+https://sepadra.com/login.html -> 404
+https://sepadra.com/administrator -> 404
+https://sepadra.com/admin -> 200
+Found 200 OK at https://sepadra.com/admin! Stopping scan.
+
+Scan ended at 2025-08-28 00:37:42.988705
