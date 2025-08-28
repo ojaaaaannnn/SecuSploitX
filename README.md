@@ -436,7 +436,7 @@ No commercial use, copy, or redistribution without written consent.
 ## 📬 Contact & Community
 
 - [GitHub Discussions](https://github.com/AUX-441/SecuSploitX/discussions)
-- [Telegram Channel](https://t.me/aux441_team)
+- [Telegram Channel](https://t.me/SecuSploitX)
 - **Email for support, bug reports, and security issues:**  
   📧 **submindf@gmail.com**
 
