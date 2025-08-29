@@ -986,7 +986,8 @@ class SploitTerminal:
                 gui_dir = os.path.join(base_dir, "GUI")
                 self.open_directory(gui_dir)
 
-        def phishcapture(self):
+
+    def phishcapture(self):
         print("\n🎣 PhishCapture (Fake Pages)")
         print("=" * 50)
 
