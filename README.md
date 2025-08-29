@@ -1,6 +1,6 @@
 # SecuSploitX - Advanced Offensive Security & Penetration Testing Suite
 
-![SecuSploitX Banner](assets/sploit_banner.png)
+![SecuSploitX Banner](assets/sploit_logo.png)
 
 > **All-in-One Cybersecurity & AI Offensive Toolkit**  
 > By the AUX-441 Team | Red Team, Blue Team, AI Security, and More  
@@ -10,10 +10,10 @@
 
 <div align="center">
 
-![SecuSploitX GUI Screenshot](assets/sploit_gui.png)
+![SecuSploitX GUI Screenshot](assets/gui.PNG)
 *Graphical User Interface (GUI)*
 
-![SecuSploitX Terminal Screenshot](assets/sploit_terminal.png)
+![SecuSploitX Terminal Screenshot](assets/Terminal.PNG)
 *Terminal / CLI Mode*
 
 </div>
