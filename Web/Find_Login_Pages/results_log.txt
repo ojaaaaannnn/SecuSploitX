@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:97963ece4ddc4f61d0264d1783ca1db6f97b5255e74d5f90f81515bdb8efd57a
-size 447
+Scan started at 2025-08-28 00:37:37.268040
+Target: https://sepadra.com/
+
+https://sepadra.com/admin.php -> 404
+https://sepadra.com/admin.html -> 404
+https://sepadra.com/index.php -> 404
+https://sepadra.com/login.php -> 404
+https://sepadra.com/login.html -> 404
+https://sepadra.com/administrator -> 404
+https://sepadra.com/admin -> 200
+Found 200 OK at https://sepadra.com/admin! Stopping scan.
+
+Scan ended at 2025-08-28 00:37:42.988705

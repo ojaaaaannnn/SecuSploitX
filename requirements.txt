@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1df4f05b537d3b4b25f4af5107ddb65e1fc08c22a41e34f699775052b342e817
-size 489
+opencv-python==4.10.0.84
+pynput==1.7.7
+requests==2.32.3
+pillow==10.4.0
+sounddevice~=0.5.1
+numpy~=2.2.1
+wavio~=0.0.9
+PyAutoGUI~=0.9.54
+cryptography~=41.0.3
+bs4~=0.0.2
+beautifulsoup4~=4.12.3
+dnspython~=2.7.0
+whois~=1.20240129.2
+scapy~=2.6.1
+matplotlib~=3.10.3
+colorama~=0.4.6
+pyfiglet~=1.0.4
+customtkinter~=5.2.2
+Flask~=3.1.0
+pydub~=0.25.1
+urllib3~=2.3.0
+tqdm~=4.67.1
+scikit-learn~=1.6.1
+pandas==2.2.3
+seaborn==0.13.2
+joblib~=1.4.2
+psutil~=6.1.1
+fuzzywuzzy~=0.18.0

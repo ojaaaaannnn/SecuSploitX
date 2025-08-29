@@ -20,7 +20,6 @@ from Web.Firewall_Detector.firewall_detector import FirewallDetector
 from Sploit_Chatbot.Test_Code.Test import TestChatBot
 import urllib3
 from tkinter import filedialog, messagebox
-import winsound
 import configparser
 import re
 from datetime import datetime
@@ -28,6 +27,14 @@ import time
 from sklearn.metrics.pairwise import cosine_similarity
 from Windows.WinSploit.build_script import build_exe
 from Phishing_AI.Test import TestChatBot
+
+if sys.platform == "win32":
+    import winsound
+else:
+    class winsound:
+        @staticmethod
+        def Beep(freq, dur):
+            print(f"[BEEP] {freq}Hz for {dur}ms (Linux/Mac dummy)")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR1 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
