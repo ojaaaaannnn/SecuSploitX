@@ -47,7 +47,8 @@ SecuSploitX is built by a talented, multidisciplinary team:
 
 - **Joel**  
   *Lead UI Designer & Visual Planner*  
-  Designs and implements all graphical elements, user flows, and ensures SecuSploitX's GUI is both intuitive and visually compelling.
+  Designs and implements all graphical elements, user flows, and ensures SecuSploitX's GUI is both intuitive and visually compelling ،
+Cybersecurity analyst, Blue Team , Security Operations Analyst .
 
 - **Tara**  
   *Lead Developer & Technical Assistant*  
