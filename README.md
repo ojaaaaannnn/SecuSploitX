@@ -196,6 +196,8 @@ cd SecuSploitX
 #### 2. Install Python dependencies
 
 ```bash
+python3 -m venv venv
+source venv/bin/activate    # For Linux / macOS
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
